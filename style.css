@@ -22,7 +22,7 @@ body
 	background-attachment:fixed;	/*背景画像を固定して全体に表示するA*/
 }
 
-#loginForm
+#login
 {
 	width:200px;
 	height:100px;
@@ -39,4 +39,9 @@ body
 	border:1px silver solid;
 	position:relative;
 	top:10px;
+}
+
+#header{
+	background-color:black;
+	height:20px;
 }

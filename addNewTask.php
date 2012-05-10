@@ -1,20 +1,25 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="ja">
-<head>
-	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-	<title>新しいタスクを登録する</title>
-</head>
-<body>
+<?php
 
-<form method="post" action="addNewTaskComplete.php">
-	タスクのタイトル
-	<br>
-	<input id="title" name="title" type="text" />
-	<br>
-	<textarea id="content" name="content" rows="10" cols="30"></textarea>
-	<input type="submit" value="" />
-</form>
+session_start();
 
-	
-</body>
-</html>
+//データベース関係の関数を読み込む
+require_once "util.php";
+
+//ホスト名とファイルのディレクトリを変数に格納
+$host =  $_SERVER['HTTP_HOST'];
+$dir  = dirname($_SERVER['PHP_SELF']);
+
+
+//ログインしてなければindex.phpへ遷移させる
+if(!isset($_SESSION['userName']))
+{
+	header("Location: http://$host$dir/index.php");
+	exit;
+}
+
+
+$flag = addNewTask($_SESSION['userId'] , $_POST['title'] , $_POST['content']);
+
+
+header("Location: http://$host$dir/home.php");
+exit;

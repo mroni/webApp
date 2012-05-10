@@ -1,6 +1,11 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="ja">
 <head>
+
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>webApp</title>
 	<link rel="stylesheet" href="style.css" />
@@ -9,30 +14,13 @@
 	<script type="text/javascript">
 	$(function()
 	{
-		$('#loginForm').submit(function(e)
-		{
-			var userName = $('#userName').val();
-			var userPassword = $('#userPassword').val();
-
-			$.ajax({
-				type:'POST',
-				url:'utils/logincheck.php',
-				data:'userName='+userName+'&userPassword='+userPassword,
-				success:function()
-				{
-					alert("good");
-					e.preventDefault();
-				}
-			});
-		});
-
 		$('#registerUserForm').submit(function(e)
 		{
-			var userName = $("#newUserName").val();
-			var userPassword = $("#newUserPassword").val();
+			//var userName = $("#newUserName").val();
+			//var userPassword = $("#newUserPassword").val();
 
-			alert(userPassword);
-			e.preventDefault();
+			//alert(userPassword);
+			//e.preventDefault();
 
 
 			/*
@@ -61,8 +49,15 @@
 </head>
 <body>
 
+<div id="header"></div>
 
 <div id = "login">
+	<ul class = 'errorMsg'>
+	<?php
+		echo @$_SESSION['errorMsg'];
+	?>
+	</ul>
+
 	<form id = "loginForm" action="logincheck.php" method = "post">
 		<input id="userName" name="userName" type="text" /><br>
 		<input id="userPassword" name="userPassword" type="password" />
@@ -71,11 +66,11 @@
 </div>
 
 <div id="registerUser">
-	<ul class = 'errorMsg'></ul>
-
+	
 	<form id = "registerUserForm" method="post" action="registerUser.php">
-		<input id="newUserName" name="userName" type="text" /><br>
-		<input id="newUserPassword" name="userPassword" type="password" />
+		<input id="newUserName" name="newUserName" type="text" /><br>
+		<input id="newUserPassword" name="newUserPassword" type="password" />
+		<input id="confirmNewUserPassword" name="confirmNewUserPassword" type="password" />
 		<input type="submit" value="登録する" />
 	</form>
 </div>
