@@ -3,6 +3,13 @@
 require_once "db.php";
 
 
+if(isset($_POST['functionName']))
+{
+	$res = $_POST['functionName']($_POST['userName']);
+	echo $res;
+}
+
+
 //IDとパスワードが合っているか照合する
 function loginCheck($userName , $userPassword)
 {
@@ -88,4 +95,16 @@ function deleteUser($userId)
 	
 	$result = insert($sql , $arg);
 }
+
+
+//ユーザの重複チェック
+function userCheck($userName)
+{
+	$sql = "select * from user where userName = ?";
+	$arg = array($userName);
+
+	$result = select($sql , $arg);
+	return $result;
+}
+
 

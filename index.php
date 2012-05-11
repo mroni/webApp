@@ -14,9 +14,31 @@ session_start();
 	<script type="text/javascript">
 	$(function()
 	{
+		$('#newUserName').blur(function()
+		{
+			var post = "functionName=userCheck&userName="+$(this).val();
+			$.ajax({
+				type:'POST',
+				url:"util.php",
+				data:post,
+				success:function(msg)
+				{
+					if(msg)
+					{
+						$('#doubleName').text('既に登録されていますよ！').css('color','red');
+					}
+					else
+					{
+						$('#doubleName').text('それなら登録できます').css('color','red');
+					}	
+				}
+			});
+
+		});
+
 		$('#registerUserForm').submit(function(e)
 		{
-			//var userName = $("#newUserName").val();
+						//var userName = $("#newUserName").val();
 			//var userPassword = $("#newUserPassword").val();
 
 			//alert(userPassword);
@@ -67,6 +89,7 @@ session_start();
 
 <div id="registerUser">
 	
+	<div id="doubleName"></div>
 	<form id = "registerUserForm" method="post" action="registerUser.php">
 		<input id="newUserName" name="newUserName" type="text" /><br>
 		<input id="newUserPassword" name="newUserPassword" type="password" />
