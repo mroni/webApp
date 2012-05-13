@@ -37,8 +37,13 @@ if(!isset($_SESSION['userName']))
 
 		//ユーザ名変更処理のフラグ
 		var nameFlag = false;
+		
+		//パスワード変更処理のフラグ
 		var passFlag = false;
 
+
+		//ログイン中のユーザのID
+		var userId = <?php echo $_SESSION['userId'];?>;
 
 		//名前変更・パスワード変更・退会の各フォームを隠しておく
 		$('#modifyName , #modifyPassword , #bye').hide();
@@ -129,8 +134,9 @@ if(!isset($_SESSION['userName']))
 		$('#modifyNameForm').submit(function(e)
 		{
 			var passArea = $('#userPassword');
-			var userId = <?php echo $_SESSION['userId'];?>;
 			var password = $('#userPassword').val();
+
+
 			var post = "functionName=checkPassword&userId="+userId+"&password="+password;
 
 			$.ajax({
@@ -158,6 +164,7 @@ if(!isset($_SESSION['userName']))
 			if(nameFlag && passFlag)
 			{
 				var newUserName = $('#newUserName').val();
+
 				var post2 = "functionName=modifyUserName&userId="+userId+"&newUserName="+newUserName;
 				$.ajax({
 					type:'POST',
@@ -174,14 +181,200 @@ if(!isset($_SESSION['userName']))
 					}
 				});
 
+				$(this).hide();
+
+				//セッションのユーザ名変更
 			}
 
 			e.preventDefault();
-			$(this).hide();
 
 		});
 
 
+
+		//パスワード変更のフラグ
+		var newPassFlag = false;
+
+		//新パスワードのチェック
+		$('#newUserPassword').blur(function()
+		{
+			//エラー表示領域を消す
+			$(this).next().empty();
+
+			if( $(this).val() != '' )
+			{
+				//文字数を確認
+				if($(this).val().length > 20)
+				{
+					$(this).next().text('パスワードは20文字以下にしてください').css('color','red');
+					newPassFlag = false;
+				}
+				
+				//文字列チェック
+				else
+				{
+					if( !($(this).val().match(/^[0-9A-Za-z-_]+$/)) )
+					{
+						$(this).next().text('パスワードは、アルファベット大文字小文字と数字、-、_のみが使えます').css('color','red');
+						newPassFlag = false;
+					}
+
+					else
+					{
+						$(this).next().text('有効なパスワードです').css('color','green');
+						newPassFlag = true;
+					}
+				}
+			}
+		});
+
+
+		//新しいパスワードが一致しているかを確認
+		$('#confirmNewUserPassword').keyup(function()
+		{
+			if($(this).val() != $('#newUserPassword').val())	
+			{
+				$(this).next().text('パスワードが一致しません').css('color','red');
+			}
+			else
+			{
+				$(this).next().text('パスワードが一致しました').css('color','green');
+			}
+
+		});
+
+		//パスワード入力欄に問題がなければ変更を実施
+		$('#modifyPasswordForm').submit(function(e)
+		{
+			var nowUserPassword = $('#nowUserPassword').val();
+			var newUserPassword = $('#newUserPassword').val();
+			var confirmNewUserPassword = $('#confirmNewUserPassword').val();
+					
+
+			//空文字チェック
+			if( !(nowUserPassword != '' && newUserPassword != '' && confirmNewUserPassword != '') )
+			{
+				newPassFlag = false;
+
+				if(nowUserPassword == '')
+				{
+					$('#nowUserPassword').next().text('パスワードを入力してください').css('color','red');
+				}
+				
+				if(newUserPassword == '')
+				{
+					$('#newUserPassword').next().text('新しいパスワードを入力してください').css('color','red');
+				}
+				
+				if(confirmNewUserPassword == '')
+				{
+					$('#confirmNewUserPassword').next().text('確認用パスワードを入力してください').css('color','red');
+				}
+
+				e.preventDefault();
+
+			}
+
+			//文字が入力されていたら
+			else
+			{
+				//確認用パスワードが一致しているか確認
+				if( !(newUserPassword == confirmNewUserPassword) )
+				{
+					$('#confirmNewUserPassword').next().text('パスワードが一致しません').css('color','red');
+					newPassFlag = false;
+					e.preventDefault();
+				}
+
+				//確認用のパスワード一致が確認できたら現在のパスワードが一致してるか確認
+				else
+				{
+					var post = "functionName=checkPassword&userId="+userId+"&password="+nowUserPassword;
+	
+					$.ajax({
+						type:'POST',
+						url:"util.php",
+						data:post,
+						async:false,
+						success:function(msg)
+						{
+							if(!msg)
+							{
+								$('#nowUserPassword').next().text('パスワードが一致しません。').css('color','red');
+								passFlag = false;
+							}
+							else
+							{
+								$('#nowUserPassword').next().empty();
+								passFlag = true;;
+							}	
+						}
+					});
+		
+				}
+
+
+				//すべての条件をクリアしていたらパスワード変更処理を行う
+				if(passFlag)
+				{
+					//POSTで送る値
+					var post = "functionname=modifyUserPassword&userId="+userId+"&newUserPassword="+newUserPassword;
+
+
+					$.ajax({
+						type:'post',
+						url:"util.php",
+						data:post,
+						dataType:"text",
+						async:false,
+						success:function(msg)
+						{
+							$.notifyBar({
+								html: "パスワードを変更しました",
+								delay: 2000,
+								cls:'success',
+								animationSpeed: "normal"
+							});
+						}
+	
+					
+					});
+					
+					$(this).hide();
+					
+				}
+
+			}
+
+			e.preventDefault();
+		});
+
+
+		$('#byeYes').click(function()
+		{
+			if(confirm("本当に退会してもよろしいですか？"))
+			{
+				var post = "functionName=deleteUser&userId="+userId;
+				$.ajax({
+					type:'post',
+					url:"util.php",
+					data:post,
+					async:false,
+					success:function(msg)
+					{
+						alert("退会しました");
+						location.href = "index.php";
+
+					}
+				});
+				
+				
+
+			}else
+			{
+				alert("con");
+			}
+		});
 	});
 	</script>
 
@@ -215,20 +408,27 @@ if(!isset($_SESSION['userName']))
 <div id="modifyPassword">
 	<form id="modifyPasswordForm" action="">
 		現在のパスワード<br>
-		<input id="newUserName" name="newUserName" type="password" /><br>
-		新しいパスワード<br>
-		<input id="userPassword" name="userPassword" type="password" /><br>
-		確認用パスワード<br>
-		<input id="userPassword" name="userPassword" type="password" />
+		<input id="nowUserPassword" name="nowUserPassword" type="password" />
+		<span></span>	
 		<br>
+
+		新しいパスワード<br>
+		<input id="newUserPassword" name="newUserPassword" type="password" />
+		<span></span>	
+		<br>
+
+		確認用パスワード<br>
+		<input id="confirmNewUserPassword" name="confirmNewUserPassword" type="password" />
+		<span></span>	
+		<br>
+
 		<input id="" name="" type="submit" value = "変更"/>
 	</form>
 </div>
 
 <div id="bye">
-<p>退会しちゃうと全部のタスクが消えちゃいます。。本当に退会しますか？</p>
-<button>はい。もう未練はないので退会します</button>
-<button>やっぱりやめません</button>
+<p>退会しちゃうと全部のタスクが消えてしまいます。。本当に退会しますか？</p>
+<button id = "byeYes">はい。退会します</button>
 </div>
 
 

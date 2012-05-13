@@ -26,6 +26,21 @@ if(isset($_POST['functionName']))
 		$res = $_POST['functionName']($_POST['userId'] , $_POST['newUserName']);
 		echo $res;
 	}
+
+
+	//パスワードの更新
+	else if( $_POST['functionName'] == 'modifyUserPassword')
+	{
+		$res = $_POST['functionName']($_POST['userId'] , $_POST['newUserPassword']);
+		echo false;
+	}
+
+
+	//退会する
+	else if( $_POST['functionName'] == 'deleteUser')
+	{
+		$_POST['functionName']($_POST['userId']);
+	}
 }
 
 
@@ -106,7 +121,9 @@ function modifyUserPassword($userId , $newUserPassword)
 	$arg = array($newUserPassword , $userId);
 	
 	$result = insert($sql , $arg);
+	return $result;
 }
+
 
 //退会する
 function deleteUser($userId)

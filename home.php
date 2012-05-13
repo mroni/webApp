@@ -40,6 +40,7 @@ $taskLists = returnTasks($_SESSION['userId']);
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>HOME</title>
+	<link rel="stylesheet" href="style.css" />
 	
 	<script type="text/javascript" src = "https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 	<script type="text/javascript">
@@ -115,33 +116,36 @@ $taskLists = returnTasks($_SESSION['userId']);
 </head>
 <body>
 
-<ul class="header">
-	<li><?php echo $_SESSION['userName'];?></li>
-	<li>
-		<a href="modifyUserInfo.php">ユーザ情報変更</a>
-	</li>
-	<li>
-		<a href="logout.php">Logout</a>
-	</li>
-</ul>
+<div class="header">
+	<ul class = "headerInfo">
+		<li><?php echo $_SESSION['userName'];?></li>
+		<li>
+			<a href="modifyUserInfo.php">ユーザ情報変更</a>
+		</li>
+		<li>
+			<a href="logout.php">Logout</a>
+		</li>
+	</ul>
+</div>
 
-
-<button id = "addNewTaskToggle">新しいタスクを登録する</button>
-<div id="addNewTask">
-	<form id="addNewTaskForm" action="addNewTask.php" method = "post">
-		タイトル<br>
-		<input id="title" name="title" type="text" size = 40/>
-		<span></span>
-		<br>
-
-
-		タスク内容<span>(0/100)</span>
-		<br>
-		<textarea id="content" name="content" rows="4" cols="25"></textarea><br>
-		<span></span>
-		<br>
-		<input type="submit" value="登録" />
-	</form>
+<div id = "new">
+	<button id = "addNewTaskToggle">新しいタスクを登録する</button>
+	<div id="addNewTask">
+		<form id="addNewTaskForm" action="addNewTask.php" method = "post">
+			タイトル<br>
+			<input id="title" name="title" type="text" size = 40/>
+			<span></span>
+			<br>
+	
+	
+			タスク内容<span>(0/100)</span>
+			<br>
+			<textarea id="content" name="content" rows="4" cols="25"></textarea><br>
+			<span></span>
+			<br>
+			<input type="submit" value="登録" />
+		</form>
+	</div>
 </div>
 
 
@@ -156,10 +160,11 @@ $taskLists = returnTasks($_SESSION['userId']);
 	{
 
 	?>
-		<p><?php echo htmlspecialchars($taskList['userName']);?></p> 
-		<p><?php echo htmlspecialchars($taskList['title']);?></p> 
-		<p><?php echo nl2br(htmlspecialchars($taskList['content']));?></p>
-		<p><?php echo htmlspecialchars($taskList['created_at']);?></p>
+		<ul class = "taskList">
+			<li><?php echo htmlspecialchars($taskList['title']);?></li> 
+			<li><?php echo nl2br(htmlspecialchars($taskList['content']));?></li>
+			<li><?php echo htmlspecialchars($taskList['created_at']);?></li>
+		</ul>
 
 	<?php
 	//foreachの終了

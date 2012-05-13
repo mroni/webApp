@@ -22,28 +22,63 @@ body
 	background-attachment:fixed;	/*背景画像を固定して全体に表示するA*/
 }
 
+.header
+{
+	margin:0px;
+	padding:0px;
+	height:50px;
+	background-color:black;
+	top:0px;
+}
+
+.headerInfo ul
+{
+	margin:0;
+	list-style-type:none;
+	color:white;
+}
+
+.headerInfo ul li 
+{
+	display:inline;
+	width:30px;
+	float:left;
+}
+
+
+.container
+{
+	width:1000px;
+	margin-left : auto;
+	margin-right : auto;
+}
+
+
+#new
+{
+	margin-left : auto;
+	margin-right : auto;
+	width:500px;
+	
+}
+.taskList
+{
+	margin-left : auto;
+	margin-right : auto;
+	width:500px;
+	border:1px solid;
+	list-style-type:none;	
+}
+
+
 #login
 {
-	width:200px;
-	height:100px;
-	border:1px silver solid;
-	position:absolute;
-	top:30%;
-	left:50%;
+	width:450px;
+	float:left;
 }
 
 #registerUser
 {
-	width:400px;
-	height:200px;
-	border:1px silver solid;
-	position:relative;
-	top:10px;
+	width:450px;
+	float:left;
 }
-
-#header{
-	background-color:black;
-	height:20px;
-}
-
-

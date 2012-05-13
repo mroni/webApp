@@ -174,40 +174,45 @@ session_start();
 </head>
 <body>
 
-<div id="header"></div>
+<div class="header"></div>
 
-<div id = "login">
-	<ul class = 'errorMsg'>
-	<?php
-		echo @$_SESSION['errorMsg'];
-	?>
-	</ul>
 
-	<form id = "loginForm" action="logincheck.php" method = "post">
-		<input id="userName" name="userName" type="text" /><br>
-		<input id="userPassword" name="userPassword" type="password" />
-		<input type="submit" value="ログイン" />
-	</form>
-</div>
-
-<div id="registerUser">
+<div class = "container">
+	<div id = "login">
+		<ul class = 'errorMsg'>
+		<?php
+			echo @$_SESSION['errorMsg'];
+		?>
+		</ul>
 	
-	<form id = "registerUserForm" method="post" action="registerUser.php">
-		<input id="newUserName" name="newUserName" type="text" />
-		<span></span>
-		<br>
-
-		<input id="newUserPassword" name="newUserPassword" type="password" />
-		<span></span>
-		<br>
-
-		<input id="confirmNewUserPassword" name="confirmNewUserPassword" type="password" />
-		<span></span>
-		<br>
-		<input name="sesid" type="hidden" value = "<?php echo session_id();?>">
-
-		<input type="submit" value="登録する" />
-	</form>
+		<form id = "loginForm" action="logincheck.php" method = "post">
+			ユーザID：<input id="userName" name="userName" type="text" /><br>
+			パスワード：<input id="userPassword" name="userPassword" type="password" />
+			<br>
+			<input type="submit" value="ログイン" />
+		</form>
+	</div>
+	
+	<div id="registerUser">
+		
+		<p>登録がまだの方はこちら</p>
+		<form id = "registerUserForm" method="post" action="registerUser.php">
+			ユーザ名：<input id="newUserName" name="newUserName" type="text" />
+			<span></span>
+			<br>
+	
+			パスワード:<input id="newUserPassword" name="newUserPassword" type="password" />
+			<span></span>
+			<br>
+	
+			パスワード(確認用)<input id="confirmNewUserPassword" name="confirmNewUserPassword" type="password" />
+			<span></span>
+			<br>
+			<input name="sesid" type="hidden" value = "<?php echo session_id();?>">
+	
+			<input type="submit" value="登録する" />
+		</form>
+	</div>
 </div>
 </body>
 </html>
