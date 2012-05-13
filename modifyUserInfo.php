@@ -28,12 +28,16 @@ if(!isset($_SESSION['userName']))
 	<title>ユーザ情報変更ページ</title>
 
 	<link rel="stylesheet" href="jquery.notifyBar.css" />
+	<link rel="stylesheet" href="style.css" />
 
 	<script type="text/javascript" src = "https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 	<script type="text/javascript" src = "jquery.notifyBar.js"></script>
 	<script type="text/javascript">
 	$(function()
 	{
+
+		//パネル操作
+		$('#paneli form').hide();
 
 		//ユーザ名変更処理のフラグ
 		var nameFlag = false;
@@ -45,34 +49,7 @@ if(!isset($_SESSION['userName']))
 		//ログイン中のユーザのID
 		var userId = <?php echo $_SESSION['userId'];?>;
 
-		//名前変更・パスワード変更・退会の各フォームを隠しておく
-		$('#modifyName , #modifyPassword , #bye').hide();
-		$('#toModifyName').click(function()
-		{
-			$('#modifyName').toggle('middle');
-			//$('#modifyName').toggle(
-			//function()
-			//{
-			//	$('#modifyName not(:animated)').show('fast');
-			//},
-			//function()
-			//{
-			//	$('#modifyName').toggle();
-			//	//$(this).removeClass();
-			//});
-		});
 		
-		$('#toModifyPassword').click(function()
-		{
-			$('#modifyPassword').toggle('middle');
-		});
-
-		$('#toBye').click(function()
-		{
-			$('#bye').toggle('middle');
-		});
-
-
 		//ユーザ名のバリデーション
 		$('#newUserName').blur(function()
 		{
@@ -381,17 +358,9 @@ if(!isset($_SESSION['userName']))
 
 </head>
 <body>
-	
-<div id="list">
-	<ul>
-		<li id = "toModifyName">ユーザ名変更</li>
-		<li id = "toModifyPassword">パスワード変更</li>
-		<li id = "toBye">退会orz</li>
-	</ul>
-</div>
 
-
-<div id="modifyName">
+<ul id = "panel">
+	<li>ユーザ名変更</li>
 	<form id="modifyNameForm" action="">
 		新しいのユーザ名<br>
 		<input id="newUserName" name="newUserName" type="text" />
@@ -403,33 +372,32 @@ if(!isset($_SESSION['userName']))
 		<br>
 		<input type="submit" value = "変更"/>
 	</form>
-</div>
-
-<div id="modifyPassword">
-	<form id="modifyPasswordForm" action="">
-		現在のパスワード<br>
-		<input id="nowUserPassword" name="nowUserPassword" type="password" />
-		<span></span>	
-		<br>
-
-		新しいパスワード<br>
-		<input id="newUserPassword" name="newUserPassword" type="password" />
-		<span></span>	
-		<br>
-
-		確認用パスワード<br>
-		<input id="confirmNewUserPassword" name="confirmNewUserPassword" type="password" />
-		<span></span>	
-		<br>
-
-		<input id="" name="" type="submit" value = "変更"/>
-	</form>
-</div>
-
-<div id="bye">
-<p>退会しちゃうと全部のタスクが消えてしまいます。。本当に退会しますか？</p>
-<button id = "byeYes">はい。退会します</button>
-</div>
+	
+	<li>パスワード変更</li>
+		<form id="modifyPasswordForm" action="">
+			現在のパスワード<br>
+			<input id="nowUserPassword" name="nowUserPassword" type="password" />
+			<span></span>	
+			<br>
+	
+			新しいパスワード<br>
+			<input id="newUserPassword" name="newUserPassword" type="password" />
+			<span></span>	
+			<br>
+	
+			確認用パスワード<br>
+			<input id="confirmNewUserPassword" name="confirmNewUserPassword" type="password" />
+			<span></span>	
+			<br>
+	
+			<input id="" name="" type="submit" value = "変更"/>
+		</form>
+	
+	<li>退会する</li>
+	<div id="bye">
+	<p>退会しちゃうと全部のタスクが消えてしまいます。。本当に退会しますか？</p>
+	<button id = "byeYes">はい。退会します</button>
+</ul>
 
 
 

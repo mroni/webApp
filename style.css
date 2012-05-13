@@ -82,3 +82,29 @@ body
 	width:450px;
 	float:left;
 }
+
+
+
+/*
+情報変更ページ
+*/
+
+#panel
+{
+	width:300px;
+}
+
+#panel li
+{
+	list-style-type:none;
+	background-color:silver;
+	cursor:pointer;
+	background-image:url('images/panel.jpg');
+	padding:4px;
+	color:white;
+}
+
+#panel form
+{
+	border:solid 1px silver;
+}
