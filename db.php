@@ -3,12 +3,16 @@
 //db設定ファイルの読み込み
 require_once "../../config/database.php";
 
+
 //データベースへ接続する
 function connect()
 {
 	try
 	{
 		$pdo = new PDO("mysql:host=localhost;dbname=".DBNAME.";",USER,PASSWORD);
+
+		//バッファードクエリを使用する
+		$pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true); 
 		
 		return $pdo;
 	
@@ -62,10 +66,4 @@ function return_select($sql , $arg = array())
 
 	return $res;
 }
-
-
-//$sql = "select * from user where userName = ? and userPassword = ?";
-//$arg = array('test','pass');
-//
-//var_dump(select($sql,$arg));
 

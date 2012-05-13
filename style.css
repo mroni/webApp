@@ -34,8 +34,8 @@ body
 
 #registerUser
 {
-	width:200px;
-	height:100px;
+	width:400px;
+	height:200px;
 	border:1px silver solid;
 	position:relative;
 	top:10px;
@@ -45,3 +45,5 @@ body
 	background-color:black;
 	height:20px;
 }
+
+

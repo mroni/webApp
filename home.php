@@ -40,10 +40,83 @@ $taskLists = returnTasks($_SESSION['userId']);
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>HOME</title>
+	
+	<script type="text/javascript" src = "https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+	<script type="text/javascript">
+	$(function()
+	{
+		$('#addNewTask').hide();
+		
+		var flag = false;
+
+		//タスク登録ボタンを押すと出てくる
+		$('#addNewTaskToggle').click(function()
+		{
+			$('#addNewTask').toggle("middle");
+		});
+
+		//タイトルの長さチェック
+		$('#title').blur(function()
+		{
+			if($(this).val().length > 20)	
+			{
+				$(this).next().text('タイトルは20文字以下で入して下さい').css('color','red');
+				flag = false;
+			}
+			else
+			{
+				$(this).next().empty();
+				flag = true;
+			}
+
+		});
+
+
+		//本文の文字数チェック
+		$('#content').keyup(function()
+		{
+			var length = $(this).val().length;
+
+			if(length < 100)
+			{
+				$(this).prev().prev().text("("+length+"/100)").css('color','black');	
+				flag = true;
+			}
+			else
+			{
+				$(this).prev().prev().text("内容は100文字以下で入力してください").css('color','red');	
+				flag = false;
+			}
+		});
+
+		//サブミットされた時の処理（空白でないか、文字数は大丈夫か）
+		$('#addNewTask').submit(function(e)
+		{
+			if( $('#content').val() == '')	
+			{
+				$('#content').prev().prev().text("内容を入力してください").css('color','red');	
+				flag = false;
+				e.preventDefault();
+			}
+
+			//タイトルが空だったら無題とする
+			if( $('#title').val() == '')	
+			{
+				$('#title').val("無題");
+			}
+
+			if(!flag)
+			{
+				e.preventDefault();
+			}
+		});
+	});
+	</script>
 </head>
 <body>
 
 <ul class="header">
+	<li><?php echo $_SESSION['userName'];?></li>
 	<li>
 		<a href="modifyUserInfo.php">ユーザ情報変更</a>
 	</li>
@@ -53,13 +126,20 @@ $taskLists = returnTasks($_SESSION['userId']);
 </ul>
 
 
-<a href="addNewTask.php">新しいタスクを登録する</a>
+<button id = "addNewTaskToggle">新しいタスクを登録する</button>
 <div id="addNewTask">
 	<form id="addNewTaskForm" action="addNewTask.php" method = "post">
 		タイトル<br>
-		<input id="title" name="title" type="text" size = 40/><br>
-		タスク内容<br>
+		<input id="title" name="title" type="text" size = 40/>
+		<span></span>
+		<br>
+
+
+		タスク内容<span>(0/100)</span>
+		<br>
 		<textarea id="content" name="content" rows="4" cols="25"></textarea><br>
+		<span></span>
+		<br>
 		<input type="submit" value="登録" />
 	</form>
 </div>

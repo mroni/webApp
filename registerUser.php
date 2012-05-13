@@ -9,10 +9,10 @@ require_once "util.php";
 $host =  $_SERVER['HTTP_HOST'];
 $dir  = dirname($_SERVER['PHP_SELF']);
 
-//ログインしてなければindex.phpへ遷移させる
-if(!isset($_SESSION['userName']))
+//正規ページからのアクセスでなければindex.phpへ遷移させる
+if( $_POST['sesid'] != session_id())
 {
-	header("Location: http://$host$dir/index.php");
+		header("Location: http://$host$dir/index.php");
 	exit;
 }
 
@@ -30,6 +30,9 @@ $_SESSION['userName'] = $_POST['newUserName'];
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>会員登録完了</title>
+
+	
+
 </head>
 <body>
 

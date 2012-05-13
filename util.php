@@ -5,8 +5,27 @@ require_once "db.php";
 
 if(isset($_POST['functionName']))
 {
-	$res = $_POST['functionName']($_POST['userName']);
-	echo $res;
+
+	//ユーザの重複チェック
+	if( $_POST['functionName'] == 'userCheck' )
+	{
+		$res = $_POST['functionName']($_POST['userName']);
+		echo $res;
+	}
+
+	//パスワードの確認
+	else if( $_POST['functionName'] == 'checkPassword')
+	{
+		$res = $_POST['functionName']($_POST['userId'] , $_POST['password']);
+		echo $res;
+	}
+
+	//ユーザ名変更
+	else if( $_POST['functionName'] == 'modifyUserName' )
+	{
+		$res = $_POST['functionName']($_POST['userId'] , $_POST['newUserName']);
+		echo $res;
+	}
 }
 
 
@@ -76,7 +95,9 @@ function modifyUserName($userId , $newUserName)
 	$arg = array($newUserName , $userId);
 	
 	$result = insert($sql , $arg);
+	return $result;
 }
+
 
 //パスワードを変更する
 function modifyUserPassword($userId , $newUserPassword)
@@ -106,5 +127,17 @@ function userCheck($userName)
 	$result = select($sql , $arg);
 	return $result;
 }
+
+
+//ユーザのパスワードチェック
+function checkPassword($userId,$password)
+{
+	$sql = "select * from user where userId = ? and userPassword = ?";
+	$arg = array($userId , $password);
+
+	$result = select($sql, $arg);
+	return $result;
+}
+
 
 

@@ -14,57 +14,160 @@ session_start();
 	<script type="text/javascript">
 	$(function()
 	{
+		var registerFlag =  false;
+
+
+		//ユーザ名の重複チェック　
 		$('#newUserName').blur(function()
 		{
-			var post = "functionName=userCheck&userName="+$(this).val();
-			$.ajax({
-				type:'POST',
-				url:"util.php",
-				data:post,
-				success:function(msg)
+			//エラー表示領域を消す
+			$(this).next().empty();
+
+			if( $(this).val() != '' )
+			{
+				//文字数を確認
+				if($(this).val().length > 10)
 				{
-					if(msg)
+					$(this).next().text('ユーザ名は10文字以下にして下さい').css('color','red');
+					registerFlag = false;
+				}
+				
+				//文字列チェック
+				else
+				{
+					if( !($(this).val().match(/^[0-9A-Za-z]+$/)) )
 					{
-						$('#doubleName').text('既に登録されていますよ！').css('color','red');
+						$(this).next().text('ユーザ名は、アルファベット大文字小文字と数字のみが使えます').css('color','red');
+						registerFlag = false;
 					}
+
+					//ユーザ名の重複チェック
 					else
 					{
-						$('#doubleName').text('それなら登録できます').css('color','red');
-					}	
+						var name = $(this);
+						var post = "functionName=userCheck&userName="+name.val();
+						$.ajax({
+							type:'POST',
+							url:"util.php",
+							data:post,
+							success:function(msg)
+							{
+								if(msg)
+								{
+									
+									name.next().text('既に登録されています！').css('color','red');
+									registerFlag = false;
+								}
+								else
+								{
+							
+									name.next().text('登録可能なユーザ名です').css('color','green');
+									registerFlag = true;;
+						
+								}	
+							}
+						});
+					}
 				}
-			});
+			}
+		});
+
+		//パスワードの正規表現チェック
+		$('#newUserPassword').blur(function()
+		{
+			//エラー表示領域を消す
+			$(this).next().empty();
+
+			if( $(this).val() != '')
+			{
+				//文字数を確認
+				if($(this).val().length > 20)
+				{
+					$(this).next().text('パスワードは20文字以下にして下さい').css('color','red');
+					registerFlag = false;
+				}
+				
+				//文字列チェック
+				else
+				{
+					if( !($(this).val().match(/^[0-9A-Za-z-_]+$/)) )
+					{
+						$(this).next().text('パスワードは、アルファベット大文字小文字と数字、-、_のみが使えます').css('color','red');
+						registerFlag = false;
+					}
+
+					else
+					{
+						$(this).next().text('有効なパスワードです').css('color','green');
+						registerFlag = true;
+					}
+				}
+			}
+			
+		
+		});
+
+		//パスワードが一致しているか確認
+		$('#confirmNewUserPassword').keyup(function()
+		{
+			if($(this).val() != $('#newUserPassword').val())	
+			{
+				$(this).next().text('パスワードが一致しません').css('color','red');
+				registerFlag = false;
+			}
+			else
+			{
+				$(this).next().text('パスワードが一致しました').css('color','green');
+				registerFlag = true;
+			}
 
 		});
 
+		//サブミットボタンが押された時の処理(空文字ないかandパスワード一致してるか)
 		$('#registerUserForm').submit(function(e)
 		{
-						//var userName = $("#newUserName").val();
-			//var userPassword = $("#newUserPassword").val();
+			var newUserName = $('#newUserName').val();
+			var newUserPassword = $('#newUserPassword').val();
+			var confirmNewUserPassword = $('#confirmNewUserPassword').val();
+					
 
-			//alert(userPassword);
-			//e.preventDefault();
+			//空文字チェック
+			if( !(newUserName != '' && newUserPassword != '' && confirmNewUserPassword != '') )
+			{
+				registerFlag = false;
 
+				if(newUserName == '')
+				{
+					$('#newUserName').next().text('ユーザ名を入力してください').css('color','red');
+				}
+				
+				if(newUserPassword == '')
+				{
+					$('#newUserPassword').next().text('パスワードを入力してください').css('color','red');
+				}
+				
+				if(confirmNewUserPassword == '')
+				{
+					$('#confirmNewUserPassword').next().text('確認用パスワードを入力してください').css('color','red');
+				}
+				e.preventDefault();
 
-			/*
-			$.ajax({
-				type:"POST",
-				url:"db.php",
-				data:"userName="+
-			})
-			//*/
+			}
 
+			//パスワードが一致しているか確認
+			else
+			{
+				if( !(registerFlag && (newUserPassword == confirmNewUserPassword)) )
+				{
+					$('#confirmNewUserPassword').next().text('パスワードが一致しません').css('color','red');
+					registerFlag = false;
+					e.preventDefault();
+				}
+			}
+			
+					
 		});
 		
-		//var name = $('#newUserName');
-		//var password = $('#newUserPassword');
-
-		//name.val('ユーザ名').css('color','gray');
-		//password.val('パスワード');
-
-		$('#registerUserForm').submit(function(e)
-		{
-			//userNameのチェック	
-		});
 	})
 	
 	</script>
@@ -89,11 +192,20 @@ session_start();
 
 <div id="registerUser">
 	
-	<div id="doubleName"></div>
 	<form id = "registerUserForm" method="post" action="registerUser.php">
-		<input id="newUserName" name="newUserName" type="text" /><br>
+		<input id="newUserName" name="newUserName" type="text" />
+		<span></span>
+		<br>
+
 		<input id="newUserPassword" name="newUserPassword" type="password" />
+		<span></span>
+		<br>
+
 		<input id="confirmNewUserPassword" name="confirmNewUserPassword" type="password" />
+		<span></span>
+		<br>
+		<input name="sesid" type="hidden" value = "<?php echo session_id();?>">
+
 		<input type="submit" value="登録する" />
 	</form>
 </div>

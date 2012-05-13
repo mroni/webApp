@@ -18,7 +18,8 @@ if(!isset($_SESSION['userName']))
 }
 
 
-$flag = addNewTask($_SESSION['userId'] , $_POST['title'] , $_POST['content']);
+//タスクを登録する
+addNewTask($_SESSION['userId'] , $_POST['title'] , $_POST['content']);
 
 
 header("Location: http://$host$dir/home.php");
