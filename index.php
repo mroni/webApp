@@ -174,7 +174,7 @@ session_start();
 </head>
 <body>
 
-<div class="header"></div>
+<ul class="headerInfo"></ul>
 
 
 <div class = "container">

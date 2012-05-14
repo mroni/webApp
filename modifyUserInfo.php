@@ -37,7 +37,20 @@ if(!isset($_SESSION['userName']))
 	{
 
 		//パネル操作
-		$('#paneli form').hide();
+		$('#panel div').hide();
+
+		$('#panel li').click(function(e)
+		{
+			var d = $('+div' , this);
+			if(d.css('display') == 'block')
+			{
+				d.slideUp(1000);
+			}
+			else
+			{
+				d.slideDown(1000);
+			}
+		});
 
 		//ユーザ名変更処理のフラグ
 		var nameFlag = false;
@@ -359,21 +372,38 @@ if(!isset($_SESSION['userName']))
 </head>
 <body>
 
+<div class="header">
+	<ul class = "headerInfo">
+		<li><?php echo $_SESSION['userName'];?></li>
+		<li>
+			<a href="modifyUserInfo.php">ユーザ情報変更</a>
+		</li>
+		<li>
+			<a href="logout.php">Logout</a>
+		</li>
+	</ul>
+</div>
+
+
+
 <ul id = "panel">
 	<li>ユーザ名変更</li>
-	<form id="modifyNameForm" action="">
-		新しいのユーザ名<br>
-		<input id="newUserName" name="newUserName" type="text" />
-		<span></span>	
-		<br>
-		パスワードを入力してください<br>
-		<input id="userPassword" name="userPassword" type="password" />
-		<span></span>	
-		<br>
-		<input type="submit" value = "変更"/>
-	</form>
+	<div>
+		<form id="modifyNameForm" action="">
+			新しいのユーザ名<br>
+			<input id="newUserName" name="newUserName" type="text" />
+			<span></span>	
+			<br>
+			パスワードを入力してください<br>
+			<input id="userPassword" name="userPassword" type="password" />
+			<span></span>	
+			<br>
+			<input type="submit" value = "変更"/>
+		</form>
+	</div>
 	
 	<li>パスワード変更</li>
+	<div>
 		<form id="modifyPasswordForm" action="">
 			現在のパスワード<br>
 			<input id="nowUserPassword" name="nowUserPassword" type="password" />
@@ -392,11 +422,13 @@ if(!isset($_SESSION['userName']))
 	
 			<input id="" name="" type="submit" value = "変更"/>
 		</form>
+	</div>
 	
 	<li>退会する</li>
 	<div id="bye">
-	<p>退会しちゃうと全部のタスクが消えてしまいます。。本当に退会しますか？</p>
-	<button id = "byeYes">はい。退会します</button>
+		<p>退会しちゃうと全部のタスクが消えてしまいます。。本当に退会しますか？</p>
+		<button id = "byeYes">はい。退会します</button>
+	</div>
 </ul>
 
 

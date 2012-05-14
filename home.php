@@ -116,17 +116,15 @@ $taskLists = returnTasks($_SESSION['userId']);
 </head>
 <body>
 
-<div class="header">
-	<ul class = "headerInfo">
-		<li><?php echo $_SESSION['userName'];?></li>
-		<li>
-			<a href="modifyUserInfo.php">ユーザ情報変更</a>
-		</li>
-		<li>
-			<a href="logout.php">Logout</a>
-		</li>
-	</ul>
-</div>
+<ul class = "headerInfo">
+	<li><?php echo $_SESSION['userName'];?></li>
+	<li>
+		<a href="modifyUserInfo.php">ユーザ情報変更</a>
+	</li>
+	<li>
+		<a href="logout.php">Logout</a>
+	</li>
+</ul>
 
 <div id = "new">
 	<button id = "addNewTaskToggle">新しいタスクを登録する</button>

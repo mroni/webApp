@@ -22,32 +22,35 @@ body
 	background-attachment:fixed;	/*背景画像を固定して全体に表示するA*/
 }
 
-.header
+.headerInfo 
 {
+	position:absolute;
+	top:0px;
+	left:0px;
+
 	margin:0px;
 	padding:0px;
-	height:50px;
-	background-color:black;
-	top:0px;
-}
 
-.headerInfo ul
-{
-	margin:0;
+	height:50px;
+	width:100%;
+
+	background-color:black;
 	list-style-type:none;
+
 	color:white;
 }
 
-.headerInfo ul li 
+.headerInfo  li 
 {
 	display:inline;
-	width:30px;
+	width:100px;
 	float:left;
 }
 
 
 .container
 {
+	margin-top:50px;
 	width:1000px;
 	margin-left : auto;
 	margin-right : auto;
@@ -56,6 +59,7 @@ body
 
 #new
 {
+	margin-top:50px;
 	margin-left : auto;
 	margin-right : auto;
 	width:500px;
@@ -83,6 +87,10 @@ body
 	float:left;
 }
 
+.errorMsg
+{
+	color:red;
+}
 
 
 /*
@@ -92,6 +100,8 @@ body
 #panel
 {
 	width:300px;
+	margin-left:auto;
+	margin-right:auto;
 }
 
 #panel li
@@ -104,7 +114,7 @@ body
 	color:white;
 }
 
-#panel form
+#panel div
 {
 	border:solid 1px silver;
 }
