@@ -117,12 +117,13 @@ $taskLists = returnTasks($_SESSION['userId']);
 <body>
 
 <ul class = "headerInfo">
-	<li><?php echo $_SESSION['userName'];?></li>
+	<a href = "home.php"><img  id = "logo" src="images/logo.png" alt="" /></a>
+	<li>ようこそ<?php echo htmlspecialchars($_SESSION['userName']);?>さん</li>
 	<li>
 		<a href="modifyUserInfo.php">ユーザ情報変更</a>
 	</li>
 	<li>
-		<a href="logout.php">Logout</a>
+		<a href="logout.php">ログアウト</a>
 	</li>
 </ul>
 

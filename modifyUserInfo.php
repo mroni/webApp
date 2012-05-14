@@ -44,11 +44,11 @@ if(!isset($_SESSION['userName']))
 			var d = $('+div' , this);
 			if(d.css('display') == 'block')
 			{
-				d.slideUp(1000);
+				d.slideUp(500);
 			}
 			else
 			{
-				d.slideDown(1000);
+				d.slideDown(500);
 			}
 		});
 
@@ -60,7 +60,7 @@ if(!isset($_SESSION['userName']))
 
 
 		//ログイン中のユーザのID
-		var userId = <?php echo $_SESSION['userId'];?>;
+		var userId = "<?php echo $_SESSION['userId'];?>";
 
 		
 		//ユーザ名のバリデーション
@@ -171,7 +171,7 @@ if(!isset($_SESSION['userName']))
 					}
 				});
 
-				$(this).hide();
+				$(this).slideUp(500);
 
 				//セッションのユーザ名変更
 			}
@@ -308,7 +308,7 @@ if(!isset($_SESSION['userName']))
 				if(passFlag)
 				{
 					//POSTで送る値
-					var post = "functionname=modifyUserPassword&userId="+userId+"&newUserPassword="+newUserPassword;
+					var post = "functionName=modifyUserPassword&userId="+userId+"&newUserPassword="+newUserPassword;
 
 
 					$.ajax({
@@ -316,8 +316,7 @@ if(!isset($_SESSION['userName']))
 						url:"util.php",
 						data:post,
 						dataType:"text",
-						async:false,
-						success:function(msg)
+						success:function(data)
 						{
 							$.notifyBar({
 								html: "パスワードを変更しました",
@@ -326,11 +325,9 @@ if(!isset($_SESSION['userName']))
 								animationSpeed: "normal"
 							});
 						}
-	
-					
 					});
 					
-					$(this).hide();
+					$(this).slideUp(500);
 					
 				}
 
@@ -372,17 +369,16 @@ if(!isset($_SESSION['userName']))
 </head>
 <body>
 
-<div class="header">
-	<ul class = "headerInfo">
-		<li><?php echo $_SESSION['userName'];?></li>
-		<li>
-			<a href="modifyUserInfo.php">ユーザ情報変更</a>
-		</li>
-		<li>
-			<a href="logout.php">Logout</a>
-		</li>
-	</ul>
-</div>
+<ul class = "headerInfo">
+	<a href = "home.php"><img  id = "logo" src="images/logo.png" alt="" /></a>
+	<li>ようこそ<?php echo htmlspecialchars($_SESSION['userName']);?>さん</li>
+	<li>
+		<a href="home.php">ホーム画面へ</a>
+	</li>
+	<li>
+		<a href="logout.php">ログアウト</a>
+	</li>
+</ul>
 
 
 

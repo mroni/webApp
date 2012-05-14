@@ -23,12 +23,15 @@ session_destroy();
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>ログアウト完了</title>
+	<link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<p>ログアウト完了しました。</p>
-
-<a href="index.php">ログイン画面へ戻る</a>
+<div class="completeContainer">
+	<p class = "complete">ログアウト完了しました。</p>
+	
+	<a href="index.php" class = "toHome">ログイン画面へ戻る</a>
+</div>
 	
 </body>
 </html>

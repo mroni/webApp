@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+//session_start();
 
 //db制御ファイルの読み込み
 require_once "util.php";
@@ -30,15 +30,19 @@ $_SESSION['userName'] = $_POST['newUserName'];
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>会員登録完了</title>
+	<link rel="stylesheet" href="style.css" />
 
 	
 
 </head>
 <body>
 
-<p>会員登録が完了しました</p>
-
-<a href="home.php">ホーム画面へ行く</a>
+<div class="completeContainer">
+	<p class = "complete">TaskControllへようこそ</p>
+	<p class = "complete">会員登録が完了しました</p>
+	
+	<a href="home.php" class = "toHome">ホーム画面へ行く</a>
+</div>
 
 </body>
 </html>

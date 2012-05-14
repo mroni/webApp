@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require_once "db.php";
 
@@ -32,7 +33,7 @@ if(isset($_POST['functionName']))
 	else if( $_POST['functionName'] == 'modifyUserPassword')
 	{
 		$res = $_POST['functionName']($_POST['userId'] , $_POST['newUserPassword']);
-		echo false;
+		echo $res;
 	}
 
 
@@ -70,7 +71,7 @@ function returnUserId($userName)
 //自身の登録してるタスクを一覧取得
 function returnTasks($userId)
 {
-	$sql = "select id ,userName , title , content , task.created_at , task.updated_at  from user , task where user.userId = ? and user.userId = task.userId;";
+	$sql = "select id ,userName , title , content , task.created_at , task.updated_at  from user , task where user.userId = ? and user.userId = task.userId order by created_at desc";
 	$arg = array($userId);
 
 	$result = return_select($sql,$arg);
@@ -106,10 +107,13 @@ function addNewUser($userName , $userPassword)
 //ユーザ名を変更する
 function modifyUserName($userId , $newUserName)
 {
-	$sql = "update user set userName = ? where userId = ?";
+	$sql = "update user set userName = ?  , updated_at = now() where userId = ? ";
 	$arg = array($newUserName , $userId);
 	
 	$result = insert($sql , $arg);
+
+	//セッションのユーザ名を更新する
+	$_SESSION['userName'] = $newUserName;
 	return $result;
 }
 
@@ -117,12 +121,13 @@ function modifyUserName($userId , $newUserName)
 //パスワードを変更する
 function modifyUserPassword($userId , $newUserPassword)
 {
-	$sql = "update user set userPassword = ? where userId = ?";
+	$sql = "update user set userPassword = ? , updated_at = now() where userId = ? ";
 	$arg = array($newUserPassword , $userId);
 	
 	$result = insert($sql , $arg);
 	return $result;
 }
+
 
 
 //退会する

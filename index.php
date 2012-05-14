@@ -1,5 +1,19 @@
 <?php
 session_start();
+
+//ホスト名とファイルのディレクトリを変数に格納
+$host =  $_SERVER['HTTP_HOST'];
+$dir  = dirname($_SERVER['PHP_SELF']);
+
+//ログインしてればホーム画面へ
+if(isset($_SESSION['userName']))
+{
+	header("Location: http://$host$dir/home.php");
+	exit;
+}
+
+
+
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -14,8 +28,10 @@ session_start();
 	<script type="text/javascript">
 	$(function()
 	{
+		
 		var registerFlag =  false;
 
+		$('#userName').focus();
 
 		//ユーザ名の重複チェック　
 		$('#newUserName').blur(function()
@@ -174,10 +190,15 @@ session_start();
 </head>
 <body>
 
-<ul class="headerInfo"></ul>
+<ul class="headerInfo">
+	<a href = "home.php"><img  id = "logo" src="images/logo.png" alt="" /></a>
+</ul>
 
 
 <div class = "container">
+	<img src="images/home.jpg" alt="" />
+
+
 	<div id = "login">
 		<ul class = 'errorMsg'>
 		<?php

@@ -31,7 +31,7 @@ body
 	margin:0px;
 	padding:0px;
 
-	height:50px;
+	height:60px;
 	width:100%;
 
 	background-color:black;
@@ -40,29 +40,85 @@ body
 	color:white;
 }
 
+.headerInfo img
+{
+	margin-top:10px;
+	margin-left:20px;
+	height:30px;
+	float:left;
+
+}
+
 .headerInfo  li 
 {
 	display:inline;
-	width:100px;
+	width:120px;
+	padding-left:100px;
+	padding-top:15px;
 	float:left;
 }
 
 
+/*
+ * indexページ
+ */
+
 .container
 {
 	margin-top:50px;
-	width:1000px;
+	width:850px;
+	height:460px;
 	margin-left : auto;
 	margin-right : auto;
 }
 
+.container img
+{
+	
+	width:450px;
+	position:absolute;
+
+	top:100px;
+	float:left;
+}
+
+
+#login
+{
+	position:relative;
+	top:60px;
+	left:100px;
+	width:450px;
+	float:right;
+}
+
+#registerUser
+{
+	position:relative;
+	top:150px;
+	left:100px;
+	width:450px;
+	float:right;
+}
+
+
+
+.errorMsg
+{
+	color:red;
+}
+
+
+/*
+ * homeページ
+ */
 
 #new
 {
-	margin-top:50px;
+	margin-top:100px;
 	margin-left : auto;
 	margin-right : auto;
-	width:500px;
+	width:600px;
 	
 }
 .taskList
@@ -70,27 +126,22 @@ body
 	margin-left : auto;
 	margin-right : auto;
 	width:500px;
-	border:1px solid;
+	border:1px solid silver;
 	list-style-type:none;	
 }
 
-
-#login
+.taskList  li:first-child
 {
-	width:450px;
-	float:left;
+	font-size:x-large;
 }
 
-#registerUser
+.taskList li:nth-of-type(3)
 {
-	width:450px;
-	float:left;
+	font-size:small;
 }
 
-.errorMsg
-{
-	color:red;
-}
+
+
 
 
 /*
@@ -102,6 +153,7 @@ body
 	width:300px;
 	margin-left:auto;
 	margin-right:auto;
+	margin-top:100px;
 }
 
 #panel li
@@ -117,4 +169,29 @@ body
 #panel div
 {
 	border:solid 1px silver;
+}
+
+
+/*
+ * registerUserページ
+ */
+
+.completeContainer
+{
+	width:550px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.complete 
+{
+	color:white;
+	font-size:xx-large;
+}
+
+
+
+.toHome
+{
+	font-size:xx-large;
 }

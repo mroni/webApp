@@ -30,7 +30,14 @@ function insert($sql,$arg = array())
 	$pdo = connect();
 	$stmt = $pdo->prepare($sql);
 	$res = $stmt->execute($arg);
-	return $res;
+
+
+	//影響した行が1個以上あれば成功
+	if($stmt->rowCount() > 0)
+		return true;
+	else
+		return false;
+
 
 }
 
